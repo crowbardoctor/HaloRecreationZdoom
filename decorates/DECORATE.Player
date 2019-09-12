@@ -1,0 +1,29 @@
+ACTOR Player2 : DoomPlayer
+{
+  Speed 1
+  Health 100
+  Radius 16
+  Height 56
+  Mass 100
+    
+  Player.StartItem "SmallClip", 15
+  Player.StartItem "Pistol2", 1
+  Player.StartItem "GunCount", 1
+ 
+  Player.WeaponSlot 1, HeUsedCheats
+  Player.WeaponSlot 2, Chainsaw2, Pistol2, Shotgun2, SuperShotgun2, Chaingun2, RocketLauncher2, PlasmaRifle2, BFG90002
+  
+  States
+  {
+  Missile:
+		TNT1 A 0 A_JumpIf(Countinv("PowerQuadDamage") == 0,2)
+		TNT1 A 0 A_PlaySound("quaddmg",CHAN_7 )
+    PLAY E 12
+    Goto Spawn
+  Melee:
+		TNT1 A 0 A_JumpIf(Countinv("PowerQuadDamage") == 0,2)
+		TNT1 A 0 A_PlaySound("quaddmg",CHAN_7 )
+    PLAY F 6 BRIGHT
+    Goto Missile
+  }
+}

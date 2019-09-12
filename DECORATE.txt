@@ -1,0 +1,19 @@
+#include "decorates/DECORATE.Base"
+#include "decorates/DECORATE.Items"
+#include "decorates/DECORATE.Projectiles"
+#include "decorates/DECORATE.Player"
+#include "decorates/DECORATE.Shield"
+#include "decorates/DECORATE.Effects"
+#include "decorates/DECORATE.HUD"
+
+#include "decorates/weapons/DECORATE.Chainsaw"
+#include "decorates/weapons/DECORATE.Pistol"
+#include "decorates/weapons/DECORATE.Shotgun"
+#include "decorates/weapons/DECORATE.SuperShotgun"
+#include "decorates/weapons/DECORATE.Chaingun"
+#include "decorates/weapons/DECORATE.RocketLauncher"
+#include "decorates/weapons/DECORATE.PlasmaRifle"
+#include "decorates/weapons/DECORATE.BFG9000"
+
+
+#include "decorates/DECORATE.Monsters"

@@ -1,0 +1,60 @@
+ACTOR Chainsaw2Pickup : GunPickup replaces Chainsaw
+{
+  states
+  {
+  Spawn:
+    CSAW A -1
+    stop
+  Active:
+    CSAW A 4 Bright A_SpawnItemEx ("Chainsaw2Giver",1,AAPTR_TARGET)
+    stop
+  }
+}
+ACTOR Chainsaw2Giver : GunGiver
+{
+  states
+  {
+  Pickup:
+    CSAW A 1 ACS_NamedExecute("PickupChainsaw2",0)
+    stop
+  }
+}
+
+ACTOR Chainsaw2 : HaloWeapon
+{
+  Weapon.Kickback 0
+  Inventory.PickupMessage "$GOTCHAINSAW"
+  Obituary "$OB_MPCHAINSAW"
+  Tag "$TAG_CHAINSAW"
+  Weapon.UpSound "weapons/sawup"
+  +WEAPON.MELEEWEAPON
+  States
+  {
+  WeaponReady:
+		TNT1 A 0 A_AlertMonsters(256,0)
+		TNT1 A 0 A_PlaySound("weapons/sawidle",CHAN_WEAPON)
+    SAWG CD 2 A_WeaponReady
+	Goto Ready
+  WeaponReadyZoom:
+		TNT1 A 0 A_AlertMonsters(256,0)
+		TNT1 A 0 A_PlaySound("weapons/sawidle",CHAN_WEAPON,0.5)
+    SCOP BB 2 A_WeaponReady(WRF_NOBOB)
+	Goto Ready
+  Deselect:
+	TNT1 A 0 A_PlaySound("weapons/sawidle",CHAN_WEAPON)
+  Deselect2:
+    SAWG C 1 A_Lower
+    Loop
+  WeaponSelect:
+    SAWG C 1 A_Raise
+    Loop
+  WeaponFire:
+		TNT1 A 0 A_AlertMonsters
+    SAWG AB 2 A_Saw( "weapons/sawfull","weapons/sawhit",1)
+    SAWG B 0 A_ReFire
+    Goto Ready
+  Spawn:
+    CSAW A -1
+    Stop
+  }
+}

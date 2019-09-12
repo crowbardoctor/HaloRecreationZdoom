@@ -1,0 +1,204 @@
+actor deletefist replaces Fist {}
+
+actor Zoom : Inventory
+{
+  inventory.maxamount 1
+}
+ACTOR GunCount : Inventory
+{
+  Inventory.MaxAmount 2
+  -INVENTORY.INVBAR
+}
+ACTOR IsMelee : Inventory
+{
+  Inventory.MaxAmount 1
+  -INVENTORY.INVBAR
+}
+ACTOR IsGrenade : Inventory
+{
+  Inventory.MaxAmount 1
+  -INVENTORY.INVBAR
+}
+ACTOR GrenadeDelay : Powerup
+{
+  Powerup.Duration 32
+}
+ACTOR GrenadeSelection : Inventory
+{
+  Inventory.MaxAmount 2
+  -INVENTORY.INVBAR
+}
+ACTOR BoolFoundTarget : Inventory
+{
+  Inventory.MaxAmount 1
+}
+
+ACTOR HeUsedCheats : Fist{}
+
+Actor GunPickup : SwitchingDecoration
+{
+  Height 1
+  Radius 8
+  Activation THINGSPEC_Activate   
+  +USESPECIAL 
+  -NOGRAVITY
+  States
+  {
+  Spawn:
+    PLAY A 10
+    Loop
+  Active:
+    PLAY A 4 Bright A_SpawnItemEx ("Pistol2Giver",1,AAPTR_TARGET)
+    Stop
+  }
+}
+ACTOR GunGiver : CustomInventory
+{
+  +QUIET
+  +ALWAYSPICKUP
+  Height 60
+  Radius 128
+  states
+  {
+  Spawn:
+    TNT1 A -1
+    stop
+  Pickup:
+    TNT1 A 1 ACS_NamedExecute("PickupPistol2",0)
+    stop
+  }
+}
+ACTOR HaloWeapon : Weapon
+{
+  +WEAPON.NOAUTOFIRE
+  +WEAPON.AMMO_OPTIONAL
+  +WEAPON.NOALERT
+  +WEAPON.CHEATNOTWEAPON
+  Weapon.BobStyle Smooth
+  Weapon.BobRangeX 0.3
+  Weapon.BobRangeY 0.6
+  Weapon.BobSpeed 2.0
+  States
+  {
+  Ready:
+	TNT1 A 0 A_JumpIfInventory("Zoom",1,"WeaponReadyZoom")
+    TNT1 A 0 A_JumpIfInventory("IsMelee",1,"MeleeStart1")
+    TNT1 A 0 A_JumpIf(countinv("IsGrenade") && countinv("FragGrenade") && countinv("GrenadeSelection") == 1, "GrenadeStart1")
+    TNT1 A 0 A_JumpIf(countinv("IsGrenade") && countinv("Mine") && countinv("GrenadeSelection") == 2, "GrenadeStart1")
+	TNT1 A 0 A_Jump(256,"WeaponReady")
+  WeaponReadyZoom:
+    SCOP B 1 A_WeaponReady(WRF_NOBOB)
+	Goto Ready
+  WeaponReady:
+    TNT1 A 1 A_WeaponReady
+    Goto Ready
+  WeaponFire:
+	Goto Ready
+  WeaponFireEmpty1:
+	TNT1 A 0 A_JumpIf(countinv("Zoom"),"ZoomOut")
+	TNT1 A 0 A_Jump(256,"WeaponFireEmpty")
+  WeaponFireEmpty:
+  Empty:
+    TNT1 A 1 A_WeaponReady(WRF_NOFIRE)
+	TNT1 A 0 ACS_NamedExecute("WeaponEmpty",0)
+	Goto Ready
+	
+  WeaponZoomPreFire:
+	TNT1 A 0 A_JumpIfInventory("Zoom",1,"ZoomOut")
+	TNT1 A 0 A_Jump(256,"WeaponFire")
+	
+  FireAuto:
+	TNT1 A 0 A_JumpIf(countinv("Zoom"),"FireAutoCheckAmmo")
+	TNT1 A 0 A_JumpIfNoAmmo("Fire")
+  FireAutoCheckAmmo:
+	TNT1 A 0 A_JumpIfNoAmmo("ZoomOut")
+	Goto Fire
+	
+  Fire:
+	TNT1 A 0 A_JumpIfNoAmmo("WeaponFireEmpty1")
+	TNT1 A 0 A_Jump(256,"WeaponZoomPreFire")
+	
+  MeleeStart1:
+	TNT1 A 0 A_ZoomFactor(1.0,ZOOM_INSTANT)
+	TNT1 A 0 A_Jump(256,"MeleeStart")
+  MeleeStart:
+	TNT1 A 0 
+	TNT1 A 0 A_Jump(256,"PreMelee")
+  MeleeEnd:
+	TNT1 A 0
+	Goto Ready
+  PreMelee:
+		TNT1 A 0 A_JumpIf(Countinv("PowerQuadDamage") == 0,2)
+		TNT1 A 0 A_PlaySound("quaddmg",CHAN_7 )
+	TNT1 A 0 A_Jump(256,"Melee")
+  Melee:
+    PUNG B 3 A_PlaySound("meleeswish",CHAN_WEAPON,0.25)
+    PUNG C 3 A_CustomPunch(20,true,0,"BulletPuff",64,0,0,"BasicArmorBonus","player/male/fist")
+    PUNG D 4
+    PUNG C 5
+    PUNG B 4 A_JumpIfInventory("IsMelee",1,"PreMelee")
+	TNT1 A 0 A_Jump(256,"MeleeEnd")
+	
+  AltFire:
+	TNT1 A 2
+    TNT1 A 0 A_JumpIfInventory("Zoom", 1, "ZoomOut")  
+	TNT1 A 0 A_Jump(256,"ZoomIn")
+	
+  Zoom:
+	TNT1 A 0 A_Jump(256,"AltFire")
+	
+  GrenadeStart1:
+	TNT1 A 0 A_ZoomFactor(1.0,ZOOM_INSTANT)
+	TNT1 A 0 A_GiveInventory("GrenadeDelay")
+	TNT1 A 0 A_Jump(256,"GrenadeStart")
+  GrenadeStart:
+	TNT1 A 0 
+	Goto Grenade
+  GrenadeEnd:
+	TNT1 A 0 A_Jump(256,"MeleeEnd")
+  Grenade:
+	TNT1 A 0 A_JumpIfInventory("GrenadeSelection",2,"GrenadeThrow2")
+  GrenadeThrow1:
+    THRW A 1 A_PlaySound("fragthrw",CHAN_WEAPON,0.75)
+    THRW B 1 A_FireProjectile("FragGrenadeProjectile",0,0,-3,4,FPF_NOAUTOAIM,-6.0)
+		TNT1 A 0 A_PlaySound("meleeswish",CHAN_6,0.12)
+    THRW CDE 2
+	TNT1 A 0 A_TakeInventory("isGrenade",1)
+	TNT1 A 0 A_TakeInventory("FragGrenade",1)
+	TNT1 A 0 A_Jump(256,"GrenadeEnd")
+  GrenadeThrow2:
+    THRW A 1 A_PlaySound("fragthrw",CHAN_WEAPON,0.75)
+    THRW B 1 A_FireProjectile("MineProjectile",0,0,-3,4,FPF_NOAUTOAIM,-6.0)
+		TNT1 A 0 A_PlaySound("meleeswish",CHAN_6,0.12)
+    THRW CDE 2
+	TNT1 A 0 A_TakeInventory("isGrenade",1)
+	TNT1 A 0 A_TakeInventory("Mine",1)
+	TNT1 A 0 A_Jump(256,"GrenadeEnd")
+	
+  ZoomIn:
+	TNT1 A 0 A_PlaySound("zoomin",CHAN_ITEM,0.5)
+    TNT1 A 0 A_ZoomFactor(4.0,ZOOM_INSTANT)
+    TNT1 A 0 A_GiveInventory ("Zoom", 1)
+    Goto "Ready" 
+  ZoomOut:
+	TNT1 A 0 A_PlaySound("zoomout",CHAN_ITEM,0.5)
+    TNT1 A 0 A_ZoomFactor(1.0,ZOOM_INSTANT)
+    TNT1 A 0 A_TakeInventory ("Zoom", 2)
+    Goto "Ready"
+	
+  Deselect:
+		TNT1 A 0 A_TakeInventory("Zoom")
+		TNT1 A 0 A_ZoomFactor(1.0,ZOOM_INSTANT)
+    TNT1 A 1 A_Lower
+    Loop	
+  Select:
+    TNT1 A 0 ACS_NamedExecute("UpdateWeaponsHUD",0)
+	TNT1 A 0 A_Jump(256,"WeaponSelect")
+  WeaponSelect:
+    TNT1 C 1 A_Raise
+    Loop
+  Spawn:
+    TNT1 A -1
+    Stop
+  }
+}

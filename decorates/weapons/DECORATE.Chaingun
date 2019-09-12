@@ -1,0 +1,88 @@
+ACTOR Chaingun2Pickup : GunPickup replaces Chaingun
+{
+  states
+  {
+  Spawn:
+    MGUN A -1
+    stop
+  Active:
+    MGUN A 4 Bright A_SpawnItemEx ("Chaingun2Giver",1,AAPTR_TARGET)
+    stop
+  }
+}
+ACTOR Chaingun2Giver : GunGiver
+{
+  states
+  {
+  Pickup:
+    MGUN A 1 ACS_NamedExecute("PickupChaingun2",0)
+    stop
+  }
+}
+
+ACTOR Chaingun2 : HaloWeapon
+{
+   Weapon.AmmoUse 1
+   Weapon.AmmoType "Clip"
+   Inventory.PickupMessage "$GOTCHAINGUN" // "You got the chaingun"
+   Obituary "$OB_MPCHAINGUN" // "%o was mowed down by %k's chaingun."
+   Tag "$TAG_CHAINGUN"
+   States
+   {
+   WeaponReady:
+    MGGG A 1 A_WeaponReady
+	Goto Ready
+   Empty:
+    MGGG A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+   Deselect:
+     MGGG A 1 A_Lower
+     Loop
+   WeaponSelect:
+     MGGG A 1 A_Raise
+     Loop
+   WeaponFireEmpty:
+   WeaponFire:
+     MGGG A 1 
+	 {
+		A_StopSound(CHAN_6);
+		if(countinv("Clip"))
+		{
+			A_PlaySound("Chaingun", CHAN_WEAPON);
+			A_GunFlash;
+			A_AlertMonsters;
+			A_FireBullets(5.6, 0, 1, 8, "BulletPuff");
+		}
+		else
+		{
+			A_PlaySound("dryfire", CHAN_WEAPON,0.5);
+			ACS_NamedExecute("WeaponEmpty",0);
+		}
+	 }
+     MGGG BCD 1
+		TNT1 A 0 A_PlaySound("Chngnd", CHAN_ITEM)
+	 MGGG A 2 {A_ReFire("FireAuto");A_WeaponReady;}
+	 MGGG B 3 {A_ReFire("FireAuto");A_WeaponReady;}
+	 MGGG C 4 {A_ReFire("FireAuto");A_WeaponReady;}
+	 MGGG D 5 {A_ReFire("FireAuto");A_WeaponReady;}
+     Goto Ready
+	
+   Flash:
+     MGGF L 1 Bright A_Light1
+     Goto LightDone
+   Spawn:
+     MGUN A -1
+     Stop
+   }
+}
+Actor Chaingun2Item replaces Chaingun
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0
+			TNT1 A 0 A_SpawnItemEx ("Chaingun2Pickup")
+			TNT1 A 0 A_SpawnItemEx ("ClipBox",0,0,0,random(-5,5),random(-5,5))
+			stop
+	}
+}

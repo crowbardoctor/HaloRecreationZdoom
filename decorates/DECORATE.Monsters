@@ -1,0 +1,39 @@
+ACTOR HaloZombieMan : ZombieMan replaces ZombieMan	// Clip -> Pistol
+{
+	DropItem "Pistol"
+}
+ACTOR HaloShotgunGuy : ShotgunGuy
+{
+	DropItem "Shotgun2Item"
+}
+ACTOR HaloSuperShotgunGuy : ShotgunGuy
+{
+	DropItem "SuperShotgun2Item"
+	AttackSound "weapons/sshotf"
+}
+ACTOR ShotgunGuyChooser replaces ShotgunGuy
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 1 A_JumpIf(CallACS("NotRandomPlacement",0,0,0,0) == 0,"Other")
+		TNT1 A 1 A_SpawnItemEx("HaloShotgunGuy",0,0,0)
+		stop
+	Other:
+		TNT1 A 1 A_SpawnItemEx("HaloSuperShotgunGuy",0,0,0.0)
+		stop
+	}	
+}
+ACTOR HaloRevenant : Revenant replaces Revenant
+{
+	DropItem "RocketLauncher2Item"
+}
+ACTOR HaloFatso : Fatso replaces Fatso
+{
+	DropItem "RocketLauncher2Item"
+}
+ACTOR HaloArachnotron : Arachnotron replaces Arachnotron
+{
+	DropItem "PlasmaRifle2Item"
+}

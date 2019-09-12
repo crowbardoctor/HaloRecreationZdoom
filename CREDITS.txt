@@ -1,0 +1,6 @@
+Bungie		Halo, Main inspiration and sounds
+
+Vostyok		Angled PlasmaRifle
+Ravage		Melee Shotgun
+skillsaw	STBAR, HUD Font, PlasmaBall sound
+Amuscaria	Pistol sounds

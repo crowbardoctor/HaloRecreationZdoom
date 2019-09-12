@@ -1,0 +1,35 @@
+ACTOR Overheatparticle
+{
+  +NOGRAVITY
+  +ALLOWPARTICLES
+  +RANDOMIZE
+  RenderStyle Translucent
+  Alpha 0.3
+  VSpeed 1
+  Mass 5
+  scale 0.5
+  States
+  {
+  Spawn:
+    PUFF ABCD 2
+	Stop
+  }
+}
+ACTOR SmokeTrail
+{
+  +NOGRAVITY
+  +ALLOWPARTICLES
+  +RANDOMIZE
+  RenderStyle Translucent
+  Alpha 0.5
+  States
+  {
+  Spawn:
+    PUFF BCD 4
+	Stop
+  }
+}
+Actor RocketSmokeTrail2 : RocketSmokeTrail
+{
+	scale 0.5
+}

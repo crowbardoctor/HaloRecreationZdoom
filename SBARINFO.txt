@@ -1,0 +1,183 @@
+height 32;
+monospacefonts true, "0";
+
+statusbar normal // Standard Doom Status bar
+{
+    drawimage "STBAR", 0, 168;
+    drawimage "SGTPRCNT", 88, 173;
+    drawnumber 3, BIGHUDFONT, untranslated, health, 88, 173;
+	
+    drawnumber 3, BIGHUDFONT, untranslated, ammo1, 42, 173;
+	
+	IsSelected "PlasmaRifle2"
+	{
+		drawimage "HEATBGR", 1,168;
+		drawbar "HEATON", "HEATOFF", PlasmaRifleHeat, horizontal, 2,169;
+	}
+	
+	
+	// SHIELD
+	drawimage "SHIBGR", 184,172;
+	drawbar "SHION", "SHIOFF", armor, horizontal, 185, 173;
+	InInventory ShieldBip, 1
+		drawimage "SHION", 185, 173;
+	InInventory BasicArmor, 101
+		drawbar "SHIOVR", "SHIOFF", OverloadedShield, horizontal, 185, 173;
+	
+    drawnumber 3, INDEXFONT, White, Armor, alignment(center), 208, 177;
+				
+		
+    //keys
+    drawswitchableimage keyslot 2 && 5, "nullimage", "STKEYS0", "STKEYS3", "STKEYS6", 239, 171;
+    drawswitchableimage keyslot 3 && 6, "nullimage", "STKEYS1", "STKEYS4", "STKEYS7", 239, 181;
+    drawswitchableimage keyslot 1 && 4, "nullimage", "STKEYS2", "STKEYS5", "STKEYS8", 239, 191;
+
+    drawnumber 3, INDEXFONT, green, ammo SmallClip,fillzeros, 288, 173;
+    drawnumber 3, INDEXFONT, green, ammo Shell,fillzeros, 288, 179;
+    drawnumber 3, INDEXFONT, green, ammo RocketAmmo,fillzeros, 288, 185;
+    drawnumber 3, INDEXFONT, green, ammo Cell,fillzeros, 288, 191;
+
+    drawnumber 3, INDEXFONT, green, ammo Clip,fillzeros, 314, 173;
+    drawnumber 3, INDEXFONT, green, ammo SuperShell,fillzeros, 314, 179;
+    drawnumber 3, INDEXFONT, green, 0,fillzeros, 314, 185;
+    drawnumber 3, INDEXFONT, green, ammo BFGCell,fillzeros, 314, 191;
+	
+    gamemode deathmatch, teamgame
+    {
+        drawnumber 2, BIGHUDFONT, untranslated, frags, 138, 173;
+    }
+    gamemode cooperative, singleplayer
+    {
+        drawimage "STARMS", 104, 168;
+		
+		InInventory SecondaryGunHUD, 8 drawimage "WEAPCHS", 124, 179, centerbottom; else		// CHAINSAW
+		InInventory SecondaryGunHUD, 7 drawimage "WEAPBFG", 124, 180, centerbottom; else		// BFG
+		InInventory SecondaryGunHUD, 6 drawimage "WEAPPSM", 124, 179, centerbottom; else		// PLASMARIFLE
+		InInventory SecondaryGunHUD, 5 drawimage "WEAPMIS", 124, 179, centerbottom; else		// MISSILE
+		InInventory SecondaryGunHUD, 4 drawimage "WEAPCHN", 124, 179, centerbottom; else		// CHAINGUN
+		InInventory SecondaryGunHUD, 3 drawimage "WEAPSH2", 124, 179, centerbottom; else		// SUPERSHOTGUN
+		InInventory SecondaryGunHUD, 2 drawimage "WEAPSHT", 124, 178, centerbottom; else		// SHOTGUN
+		InInventory SecondaryGunHUD, 1 drawimage "WEAPPIS", 124, 179, centerbottom; 			// PISTOL 
+		
+		drawnumber 3, INDEXFONT, gold, ammo FragGrenade, 123, 182;
+		drawimage "NADEFRG", 113, 188, centerbottom;
+		drawnumber 3, INDEXFONT, gold, ammo Mine, 140, 182;
+		drawimage "NADEMIN", 130, 188, centerbottom;
+		
+		InInventory GrenadeSelection, 2
+			drawimage "sel2", 104, 168;
+		else InInventory GrenadeSelection, 1
+			drawimage "sel1", 104, 168;
+		else
+			drawimage "sel0", 104, 168;
+		
+		//drawnumber 3, INDEXFONT, gold, SecondaryGunHUD, 140, 182;
+    }
+    gamemode cooperative, deathmatch, teamgame
+    {
+        drawimage translatable "STFBANY", 144, 169;
+    }
+    drawselectedinventory alternateonempty, INDEXFONT, 143, 168
+    {
+        drawmugshot 5, 143, 168;
+    }
+}
+
+
+statusbar fullscreen, fullscreenoffsets // ZDoom HUD
+{
+    //health
+    drawimage "HICONS", 22, -1, centerbottom;
+    drawimage "SGTPRCNS", 77, -16;
+	
+	drawimage "HICONG", 20, -3, centerbottom;
+	drawnumber 3, BIGHUDFONT, green, health, drawshadow, 74, -18;
+	drawimage "SGTPRCNT", 75, -18;
+
+    //armor
+    drawimage "SICONS", 22, -22, centerbottom;
+	drawimage "SHIBGRS", 42,-38;
+	drawimage "SHIBGR", 40,-40;
+	drawbar "SHION", "SHIOFF", armor, horizontal, 41, -39;
+	InInventory BasicArmor, 101
+	{
+		drawbar "SHIOVR", "SHIOFF", OverloadedShield, horizontal, 41, -39;
+		drawimage "SICONY", 20, -24, centerbottom;
+	}
+	else
+		drawimage "SICONG", 20, -24, centerbottom;
+	
+	InInventory ShieldBip, 1
+		drawimage "SHION", 41, -39;
+	
+    drawnumber 3, INDEXFONT, White, Armor, alignment(center), 64, -35;
+
+    //ammo
+    drawimage ammoicon1, -14, -4, centerbottom;
+    drawnumber 3, BIGHUDFONT, untranslated, ammo1, drawshadow, -30, -18;
+	
+	IsSelected "PlasmaRifle2"
+	{
+		drawimage "HEATBGRS", -28,-22, centerbottom;
+		drawimage "HEATBGR", -30,-24, centerbottom;
+		drawbar "HEATON", "HEATOFF", PlasmaRifleHeat, horizontal, -52,-27;
+	}
+    
+    // no ammo but inventory
+    usesammo not
+    {
+        inventorybarnotvisible
+        {
+            drawselectedinventory centerbottom, drawshadow, alwaysshowcounter, BIGHUDFONT, -14, -3, -26, -20, untranslated;
+        }
+    }
+
+    gamemode deathmatch
+    {
+        drawnumber 2, BIGHUDFONT, untranslated, frags, drawshadow, -3, 1;
+    }
+    gamemode singleplayer, cooperative, teamgame
+    {
+        drawkeybar 6, vertical, reverserows, auto, -10, 2, 0, 3, auto;
+    }
+	
+		
+	InInventory SecondaryGunHUD, 8 drawimage "WEAPCHS", -100, -6, centerbottom; else		// CHAINSAW
+	InInventory SecondaryGunHUD, 7 drawimage "WEAPBFG", -100, -6, centerbottom; else		// BFG
+	InInventory SecondaryGunHUD, 6 drawimage "WEAPPSM", -100, -6, centerbottom; else		// PLASMARIFLE
+	InInventory SecondaryGunHUD, 5 drawimage "WEAPMIS", -100, -6, centerbottom; else		// MISSILE
+	InInventory SecondaryGunHUD, 4 drawimage "WEAPCHN", -100, -6, centerbottom; else		// CHAINGUN
+	InInventory SecondaryGunHUD, 3 drawimage "WEAPSH2", -100, -6, centerbottom; else		// SUPERSHOTGUN
+	InInventory SecondaryGunHUD, 2 drawimage "WEAPSHT", -100, -6, centerbottom; else		// SHOTGUN
+	InInventory SecondaryGunHUD, 1 drawimage "WEAPPIS", -100, -6, centerbottom; 			// PISTOL 
+	
+	drawnumber 3, INDEXFONT, green, ammo FragGrenade, -34, -36;
+	drawimage "NADEFRG", -43, -30, centerbottom;
+	drawnumber 3, INDEXFONT, green, ammo Mine, -16, -36;
+	drawimage "NADEMIN", -25, -30, centerbottom;
+	
+	InInventory GrenadeSelection, 2
+		drawimage "sel2", -32, -18, centerbottom;
+	else InInventory GrenadeSelection, 1
+		drawimage "sel1", -32, -18, centerbottom;
+		
+
+    drawnumber 3, GREENSMALLFONT, green, ammo SmallClip, alignment(left)|prefix("PMAG"," ")|fillzeros|drawshadow, 	-75, -70;
+    drawnumber 3, GREENSMALLFONT, green, ammo Clip, alignment(left)|prefix("BULL"," ")|fillzeros|drawshadow,			-75, -80;
+    drawnumber 3, GREENSMALLFONT, green, ammo Shell, alignment(left)|prefix("SHEL"," ")|fillzeros|drawshadow,		-75, -90;
+    drawnumber 3, GREENSMALLFONT, green, ammo SuperShell, alignment(left)|prefix("SSHT"," ")|fillzeros|drawshadow,	-75, -100;
+    drawnumber 3, GREENSMALLFONT, green, ammo RocketAmmo, alignment(left)|prefix("RCKT"," ")|fillzeros|drawshadow,	-75, -110;
+    drawnumber 3, GREENSMALLFONT, green, ammo Cell, alignment(left)|prefix("CELL"," ")|fillzeros|drawshadow,			-75, -120;
+    drawnumber 3, GREENSMALLFONT, green, ammo BFGCell, alignment(left)|prefix("BFGC"," ")|fillzeros|drawshadow,		-75, -130;
+	
+	
+}
+statusbar inventory // Standard bar overlay (ZDoom Addition)
+{
+    drawinventorybar Doom, 7, INDEXFONT, 50, 170;
+}
+
+statusbar inventoryfullscreen // ZDoom HUD overlay.
+{
+    drawinventorybar Doom, translucent, 7, INDEXFONT, 50, 170;
+}

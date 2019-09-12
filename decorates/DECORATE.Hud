@@ -1,0 +1,25 @@
+Actor ShieldBip : Inventory
+{
+  Inventory.MaxAmount 1
+  -INVENTORY.INVBAR
+}
+Actor ShieldLowBip : Inventory
+{
+  Inventory.MaxAmount 1
+  -INVENTORY.INVBAR
+}
+Actor OverloadedShield : Inventory
+{
+  Inventory.MaxAmount 200
+  -INVENTORY.INVBAR
+}
+
+Actor SecondaryGunHUD : Inventory
+{
+  Inventory.MaxAmount 10
+  -INVENTORY.INVBAR
+}
+ACTOR NoAmmoMessage_Delay : Powerup
+{
+  Powerup.Duration -2
+}

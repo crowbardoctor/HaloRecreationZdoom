@@ -1,0 +1,44 @@
+$priority shdmg shdmg
+$priority shreg shreg
+$priority shexp shexp
+shbip shbip
+shlow shlow
+
+noammo noammo
+
+quaddmg quaddmg
+quadpick quadpick
+
+Chaingun Chaingun
+Chngnd Chngnd
+
+pisfire pisfire
+
+meleeswish DSSWISH
+
+fragthrw fragthrw
+fragboun fragboun
+
+zoomin zoomin
+zoomout zoomout
+
+overheat overheat
+
+laserlck laserlck
+
+dryfire dryfire
+
+DSPLASMB DSPLASMB
+
+GRUNPAI1	GRUNPAI1
+GRUNPAI2	GRUNPAI2
+GRUNPAI3	GRUNPAI3
+GRUNPAI4	GRUNPAI4
+GRUNPAI5	GRUNPAI5
+GRUNPAI6	GRUNPAI6
+GRUNPAI7	GRUNPAI7
+
+PLASMA1		PLASMA1
+$random grunt/pain	{ GRUNPAI1 GRUNPAI2 GRUNPAI3 GRUNPAI4 GRUNPAI5 GRUNPAI6 GRUNPAI7 }
+
+$random plasmagun/attack	{ PLASMA1 PLASMA2 PLASMA3 PLASMA4 PLASMA5 PLASMA6 PLASMA7 }

@@ -1,0 +1,9 @@
+clearplayerclasses
+addplayerclass Player2
+alias drop "pukename dropweapon"
+
+alias +Do_Kick "pukename DoMelee"					// Overwrite Brutal Doom key
+alias -Do_Kick "pukename StopMelee"
+
+alias GrenadeToss "pukename DoGrenade"				// Overwrite Brutal Doom key
+alias GrenadeSelect "pukename DoGrenadeSelect"

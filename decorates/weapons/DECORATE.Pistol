@@ -1,0 +1,144 @@
+ACTOR Pistol2Pickup : GunPickup
+{
+  states
+  {
+  Spawn:
+    PISU A -1
+    stop
+  Active:
+    PISU A 4 Bright A_SpawnItemEx ("Pistol2Giver",1,AAPTR_TARGET)
+    stop
+  }
+}
+ACTOR Pistol2Giver : GunGiver
+{
+  states
+  {
+  Pickup:
+    TNT1 A 1 ACS_NamedExecute("PickupPistol2",0)
+    stop
+  }
+}
+
+ACTOR Pistol2 : HaloWeapon
+{
+  Weapon.AmmoUse 1
+  Weapon.AmmoType "SmallClip"
+  Obituary "Magnum"
+  Inventory.Pickupmessage "$PICKUP_PISTOL_DROPPED"
+  Tag "$TAG_PISTOL"
+  States
+  {
+  WeaponReady:
+    PISH A 1 A_WeaponReady
+	Goto Ready
+  WeaponReadyZoom:
+    SCOP A 1 A_WeaponReady(WRF_NOBOB)
+	Goto Ready
+
+  Empty:
+    TNT1 A 1 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Deselect:
+		TNT1 A 0 A_TakeInventory("Zoom")
+		TNT1 A 0 A_ZoomFactor(1.0,ZOOM_INSTANT)
+    PISH A 1 A_Lower
+    Loop
+  WeaponSelect:
+    PISH A 1 A_Raise
+    Loop
+  WeaponFireEmpty:
+	PISH A 2 
+		TNT1 A 0 A_PlaySound("dryfire",CHAN_WEAPON,0.5)
+		TNT1 A 0 ACS_NamedExecute("WeaponEmpty",0)
+	PISH B 4
+	PISH C 4
+	PISH B 2
+	PISH A 4
+	PISH A 1 A_Refire("Fire")
+	Goto Ready
+	
+  WeaponZoomPreFire:
+  WeaponFire:
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_JumpIfInventory("Zoom",1,3)
+			TNT1 A 0 A_FireBullets (3.8, 0, 1, 10, "BulletPuff")
+		TNT1 A 0 A_Jump(256,2)
+			TNT1 A 0 A_FireBullets (0.7, 0, 1, 10, "BulletPuff")				
+		TNT1 A 0 A_PlaySound("pisfire", CHAN_WEAPON)
+		TNT1 A 0 A_QuakeEx( 1, 1, 1, 3, 0, 12,"" )
+		TNT1 A 0 A_JumpIfInventory("Zoom",1,3)
+	TNT1 A 0 A_Overlay(0,"FireNoZoom")
+		TNT1 A 0 A_Jump(256,2)
+	TNT1 A 0 A_Overlay(0,"FireZoom")
+	TNT1 A 2
+		TNT1 A 2 A_SetPitch(pitch-1)
+		TNT1 AAAA 1 A_SetPitch(pitch+0.25)
+		TNT1 A 1 A_SetPitch(pitch+0.5)
+		TNT1 A 1 A_SetPitch(pitch-0.5)
+	TNT1 A 3
+	TNT1 A 0 A_JumpIf(countinv("Zoom") && !countinv("SmallClip"),"ZoomOut")
+		TNT1 A 0 A_Refire("FireAuto")
+	Goto Ready	
+
+		  FireNoZoom: 				// OVERLAY
+			PISH A 2 
+			PISH B 2 A_GunFlash
+			PISH C 2
+			PISH D 2
+			PISH E 2
+			PISH D 2
+			PISH B 1
+			stop
+
+		  FireZoom: 				// OVERLAY
+			SCOP A 2
+			SCOP A 2 A_GunFlash
+			SCOP A 9
+			stop
+	
+  Flash:
+		TNT1 A 0 A_JumpIfInventory("Zoom",1,2)
+    PISF B 2 Bright A_Light1
+    Goto LightDone
+		TNT1 A 2 A_Light1
+    Goto LightDone
+	
+	
+  AltFire:
+	TNT1 A 2
+    TNT1 A 0 A_JumpIfInventory("Zoom", 1, "ZoomOut")  
+	TNT1 A 0 A_Jump(256,"ZoomIn")
+	
+  ZoomIn:
+	TNT1 A 0 A_PlaySound("zoomin",CHAN_ITEM,0.5)
+    TNT1 A 0 A_ZoomFactor(2.2,ZOOM_INSTANT)
+    TNT1 A 0 A_GiveInventory ("Zoom", 1)
+    Goto "Ready" 
+	
+
+  MeleeStart:
+	PISM AB 1 
+	Goto PreMelee
+  MeleeEnd:
+	PISM BA 1
+	Goto Ready
+  Spawn:
+    PISU A -1
+    Stop
+  }
+}
+
+Actor Pistol2Item replaces Pistol
+{
+	States
+	{
+		Spawn:
+			TNT1 A 0
+			TNT1 A 0 A_SpawnItemEx ("Pistol2Pickup")
+			TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("GetSkill") > 1,2)
+				TNT1 A 0 A_SpawnItemEx ("SmallClip",0,0,0,random(-5,5),random(-5,5))
+			TNT1 A 0 A_SpawnItemEx ("SmallClip",0,0,0,random(-5,5),random(-5,5))
+			stop
+	}
+}

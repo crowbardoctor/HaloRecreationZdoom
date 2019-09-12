@@ -1,0 +1,39 @@
+actor RemoveArmor3 replaces BlueArmorForMegasphere{}
+ACTOR Megasphere3 : Megasphere2 replaces Soulsphere{}
+ 
+ACTOR ShieldRegen_Delay : Powerup
+{
+  Powerup.Duration -5
+}
+ACTOR ShieldRegen_SoundBool : Inventory
+{
+  Inventory.MaxAmount 1
+  -INVENTORY.INVBAR
+}
+ACTOR ArmorShield : BasicArmorBonus
+{
+  armor.maxsaveamount 300
+  armor.savepercent 100
+  Inventory.Icon "BON2A0"
+  armor.saveamount 1
+}
+ACTOR ArmorShield10 : ArmorShield
+{
+  armor.saveamount 10
+}
+ACTOR ShieldBonus : CustomInventory replaces ArmorBonus
+{
+  States
+  {
+  Spawn:
+    BON2 ABCDCB 6
+    Loop
+  Pickup:
+	TNT1 A 0 A_JumpIf(countinv("BasicArmor") > 99 && countinv("BasicArmor") < 300 ,"ActualPickup")
+	fail
+  ActualPickup:
+	TNT1 A 0 
+	TNT1 A 0 A_GiveInventory("ArmorShield10",10)
+	stop
+  }
+}

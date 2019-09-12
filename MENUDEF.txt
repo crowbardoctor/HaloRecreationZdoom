@@ -1,0 +1,57 @@
+OptionMenu "MJOLNIROptions"
+{
+    Title "MJOLNIR Options"
+    Submenu "Controls", "MJOLNIRControls"
+}
+
+OptionMenu "MJOLNIRControls"
+{
+    Title "MJOLNIR Controls"
+	ScrollTop 2
+	StaticTextSwitchable 	"$CNTRLMNU_SWITCHTEXT1", "$CNTRLMNU_SWITCHTEXT2", "ControlMessage"
+	StaticText 	""
+	
+	Control 	"$CNTRLMNU_ATTACK",					"+attack"
+	Control 	"Zoom (AltFire)",					"+altattack"
+	Control 	"Melee",							"+do_kick"
+	Control 	"Select Grenade",					"grenadeselect"
+	Control 	"Throw Grenade",					"grenadetoss"
+	Control 	"$CNTRLMNU_NEXTWEAPON",				"weapnext"
+	StaticText 	""
+	Control 	"Use, Swap Weapon",					"+use"
+	Control 	"$CNTRLMNU_FORWARD",				"+forward"
+	Control 	"$CNTRLMNU_BACK",					"+back"
+	Control 	"$CNTRLMNU_MOVELEFT",				"+moveleft"
+	Control 	"$CNTRLMNU_MOVERIGHT",				"+moveright"
+	StaticText 	""
+	Control 	"$CNTRLMNU_JUMP",					"+jump"
+	Control 	"$CNTRLMNU_CROUCH",					"+crouch"
+	Control 	"$CNTRLMNU_RUN",					"+speed"
+	StaticText 	""
+}
+
+AddOptionMenu "OptionsMenu"
+{
+    StaticText ""
+    Submenu "MJOLNIR Options", "MJOLNIROptions"
+}
+
+AddOptionMenu "OptionsMenu"
+{
+	StaticText ""
+	StaticText "WeaponSway v1.0"
+	Submenu "$OPTMNU_WPNSWAY", "WeaponSwayMenu"
+}
+
+OptionMenu "WeaponSwayMenu"
+{
+	Class "WeaponSwayMenu"
+	Title "$WPNSWAYMNU_TITLE"
+	Position -32
+
+	StaticText ""
+
+	WeaponSwayOption "$WPNSWAYMNU_ENABLED",		"$WPNSWAYMNU_HELPTEXT_ENABLED",		"cl_weaponsway",			"YesNo"
+	WeaponSwayOption "$WPNSWAYMNU_INVERT",		"$WPNSWAYMNU_HELPTEXT_INVERT",		"cl_weaponsway_invert",		"YesNo"
+	WeaponSwayOption "$WPNSWAYMNU_VERTICAL",	"$WPNSWAYMNU_HELPTEXT_VERTICAL",	"cl_weaponsway_vertical",	"YesNo"
+}

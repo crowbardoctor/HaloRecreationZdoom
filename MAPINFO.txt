@@ -1,0 +1,63 @@
+clearskills
+
+gameinfo
+{
+borderflat = "BORDER"
+AddEventHandlers = "SpriteShadowHandler"
+AddEventHandlers = "WeaponSwayHandler"
+}
+
+skill baby
+{
+	AutoUseHealth
+	AmmoFactor = 2
+	DamageFactor = 0.5
+	EasyBossBrain
+	SpawnFilter = Baby
+	Name = "VERY EASY"
+	Key = "v"
+}
+
+skill easy
+{
+	EasyBossBrain
+	SpawnFilter = Easy
+	Name = "EASY"
+	Key = "e"
+}
+
+skill normal
+{
+	SpawnFilter = Normal
+	Key = "n"
+	Name = "NORMAL"
+	DefaultSkill
+}
+
+skill hard
+{
+	SpawnFilter = Hard
+	Name = "HARD"
+	Key = "h"
+}
+
+skill legendary
+{
+	AmmoFactor = 2
+	SpawnFilter = Nightmare
+	FastMonsters
+	Name = "LEGENDARY"
+	Key = "l"
+}
+
+skill nightmare
+{
+	AmmoFactor = 2
+	FastMonsters
+	DisableCheats
+	RespawnTime = 12
+	SpawnFilter = Nightmare
+	Name = "NIGHTMARE"
+	MustConfirm
+	Key = "n"
+}
